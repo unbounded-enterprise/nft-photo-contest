@@ -4,6 +4,12 @@ export interface GetNFTUserProps {
     countsOnly?: boolean;
 }
 
+export interface SendNFTProps {
+    handle: string;
+    nftId: string;
+    recipientHandle: string;
+}
+
 export interface GetNFTSlotsProps {
     handle: string;
     slotIds: string[];

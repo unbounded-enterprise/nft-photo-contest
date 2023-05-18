@@ -39,7 +39,7 @@ const InventoryCollectionPage = () => {
 
   const handleNftSearch = (e) => {
     if (e.key === "Enter") {
-      setNftSearch(e.target.value);
+      sendCollection(nfts, e.target.value);
     }
   }
 
@@ -236,4 +236,10 @@ const getNFTs = async({ collectionId })=>{
     nftsObject = (await axios.post('/api/nft/collections', { collectionIds: [collectionId], idOnly: false }));
     return nftsObject.data.collections[collectionId];
   }
+}
+
+const sendCollection = async (nfts, recipientHandle)=>{
+  let nftsObject;
+  nftsObject = (await axios.post('/api/nft/send', { recipientHandle: recipientHandle, nftId: nfts[0].nftId }));
+  console.log(nftsObject);
 }
