@@ -8,11 +8,9 @@ import { AccountPopover } from './account-popover';
 import { useAuth } from 'src/hooks/use-auth';
 
 const menuItems = [
-  { label: 'NFT Explorer', value: 'explorerMenuItem', href: '/explorer' },
+  { label: 'View Entries', value: 'explorerMenuItem', href: '/explorer' },
   { label: 'My NFTs', value: 'nftsMenuItem', href: '/inventory' },
-  { label: 'Marketplace', value: 'marketMenuItem', href: '/marketplace' },
-  { label: 'Store', value: 'storeMenuItem', href: '/store' },
-  { label: 'Docs', value: 'docsMenuItem', href: 'https://docs.assetlayer.com' },
+  { label: 'Asset Layer', value: 'docsMenuItem', href: 'https://www.assetlayer.com' },
 ];
 
 export const MenuPopover = (props) => {
@@ -108,9 +106,9 @@ export const MainNavbar = (props) => {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ alignItems: 'center', display: { xs: 'none', md: 'flex' } }}>
-            <NextLink href="/explorer" passHref legacyBehavior>
+            <NextLink href="/explorer/slot/64661df89c62e203e8fe61c1" passHref legacyBehavior>
               <Button sx={{ borderRadius: 1, py: '0.25em', '&:hover': { backgroundColor: 'rgba(155,155,155,0.1)' } }}>
-                <Typography color="textSecondary" variant="subtitle2">NFT Explorer</Typography>
+                <Typography color="textSecondary" variant="subtitle2">Entries</Typography>
               </Button>
             </NextLink>
             <NextLink href="/inventory" passHref legacyBehavior>
@@ -118,19 +116,9 @@ export const MainNavbar = (props) => {
                 <Typography color="textSecondary" variant="subtitle2">My NFTs</Typography>
               </Button>
             </NextLink>
-            <NextLink href="/marketplace" passHref legacyBehavior>
+            <NextLink href="https://www.assetlayer.com" passHref legacyBehavior>
               <Button sx={{ borderRadius: 1, py: '0.25em', '&:hover': { backgroundColor: 'rgba(155,155,155,0.1)' } }}>
-                <Typography color="textSecondary" variant="subtitle2">Marketplace</Typography>
-              </Button>
-            </NextLink>
-            <NextLink href="/store" passHref legacyBehavior>
-              <Button sx={{ borderRadius: 1, py: '0.25em', '&:hover': { backgroundColor: 'rgba(155,155,155,0.1)' } }}>
-                <Typography color="textSecondary" variant="subtitle2">Store</Typography>
-              </Button>
-            </NextLink>
-            <NextLink href="https://docs.assetlayer.com" passHref legacyBehavior>
-              <Button sx={{ borderRadius: 1, py: '0.25em', '&:hover': { backgroundColor: 'rgba(155,155,155,0.1)' } }}>
-                <Typography color="textSecondary" variant="subtitle2">Docs</Typography>
+                <Typography color="textSecondary" variant="subtitle2">Asset Layer</Typography>
               </Button>
             </NextLink>
           </Box>

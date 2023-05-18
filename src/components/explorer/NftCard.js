@@ -6,6 +6,7 @@ var menuViewExpressionValue;
 export const NftCard = ({ collection, nft, slot }) => {
   nft.expressionValues.forEach((element) => {
     if (element.expression.expressionName === "Menu View") {
+      console.log(element.value);
       menuViewExpressionValue = element.value;
     }
   });

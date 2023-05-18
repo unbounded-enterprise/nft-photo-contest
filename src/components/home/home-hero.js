@@ -45,33 +45,37 @@ export const HomeHero = (props) => {
         </Typography>
         <Typography
           align="left"
-          variant="h5"
+          variant="p1"
           sx={{ 
             mb: '1em', 
             mr:{ xs: '1em', md: '3em' } 
           }}
         >
-          { app.description }
+          {app.description.split('/n').map((line, index) => (
+            <span key={index}>
+              {line.replace('/n',"")}
+            <br />
+            </span>
+          ))}
         </Typography>
         { (!user) ? (
-          <NextLink href={redirectionUrl} legacyBehavior passHref>
+          <NextLink href={'/explorer/slot/64661df89c62e203e8fe61c1'} legacyBehavior passHref>
             <Button 
-              startIcon={<img src='/static/icons/handcash1024.png' style={{ marginBottom: '2px', width: '1.5em' , height: '1.5em' }}/>} 
               sx={{
                 height: '4em',
                 width: '20em',
-                backgroundColor: '#38CB7B', 
+                backgroundColor: '#045CD2', 
                 color: 'white',
                 fontSize: '1em',
                 px: '1em',
                 textTransform: 'none',
                 '&:hover': {
-                  backgroundColor: '#38CB7B',
+                  backgroundColor: '#045CD2',
                   transform: 'scale(1.01)',
                 }
               }}
             >
-              Login with HandCash
+              View Entries
             </Button>
           </NextLink>
         ) : (
