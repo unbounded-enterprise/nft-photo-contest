@@ -256,7 +256,7 @@ const ExploreCollectionPage = () => {
           {user && voted ?
           <Grid item xs={12} sx={{ backgroundColor: "none" }}>
           <Typography>
-            You've voted for this collection!
+            You&apos;ve voted for this collection!
           </Typography>
           </Grid> 
           :<></>}
