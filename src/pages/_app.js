@@ -22,7 +22,7 @@ const App = (props) => {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>
-          NFT Sample App
+          NFT Photo Contest
         </title>
         <meta
           name="viewport"
