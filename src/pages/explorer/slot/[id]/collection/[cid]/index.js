@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Box, Button, Breadcrumbs, IconButton, Typography, Grid, LinearProgress, TextField } from '@mui/material';
 import { BasicSearchbar } from 'src/components/widgets/basic/basic-searchbar';
 import { MainLayout } from 'src/components/main-layout';
+import { VoteLogin } from 'src/components/explorer/voteLogin';
 import { NftCard } from 'src/components/explorer/NftCard';
 import axios from 'axios';
 import React from 'react';
@@ -35,6 +36,7 @@ const ExploreCollectionPage = () => {
   const [slotId, setSlotId] = useState(null);
   const [collectionId, setCollectionId] = useState(null);
   const [page, setPage] = useState(1);
+  const [voted, setVoted] = useState(null);
   const { user } = useAuth();
 
 
@@ -69,6 +71,11 @@ const ExploreCollectionPage = () => {
     if (e.key === "Enter") {
       setNftSearch(e.target.value);
     }
+  }
+
+  const handleVote = async () => {
+    voteOnCollection(nfts[0].nftId);
+    setVoted(true);
   }
 
   useEffect(() => {
@@ -131,6 +138,15 @@ const ExploreCollectionPage = () => {
   }, [nftSearch]);
 
   useEffect(() => {
+    if (user && nfts) {
+      console.log("In the use effect");
+      if(containsUser(nfts[0], user)){
+        setVoted(true);
+      }
+    }
+  }, [user, nfts]);
+
+  useEffect(() => {
     getApp()
       .then((app) => {
         setApp(app);
@@ -177,7 +193,7 @@ const ExploreCollectionPage = () => {
               Creator:&nbsp;
             </Typography>
             <Typography variant="p2" sx={boldTextStyle}>
-              {chosenCollection.handle} &emsp;
+             { chosenCollection.tags[0] } &emsp;
             </Typography>
             <Typography variant="p2" sx={textStyle}>
               App:&nbsp;
@@ -210,6 +226,40 @@ const ExploreCollectionPage = () => {
               {chosenCollection.type} &emsp;
             </Typography>
           </Grid>
+          {user ?
+          <></>
+          :
+          <Grid item xs={12} sx={{ backgroundColor: "none" }}>
+          <VoteLogin></VoteLogin>
+          </Grid>}
+          {user && !voted ?
+          <Grid item xs={12} sx={{ backgroundColor: "none" }}>
+          <Button onClick={handleVote}
+            sx={{
+              height: '4em',
+              width: '20em',
+              backgroundColor: '#045CD2', 
+              color: 'white',
+              fontSize: '1em',
+              px: '1em',
+              textTransform: 'none',
+              '&:hover': {
+                backgroundColor: '#045CD2',
+                transform: 'scale(1.01)',
+              }
+            }}
+          >
+            Vote For This Entry
+          </Button>
+          </Grid> 
+          :<></>}
+          {user && voted ?
+          <Grid item xs={12} sx={{ backgroundColor: "none" }}>
+          <Typography>
+            You've voted for this collection!
+          </Typography>
+          </Grid> 
+          :<></>}
           <Grid item xs={12} sx={{ backgroundColor: "none" }}>
             <Box sx={{ left: 0, width: "100%" }}>
               <BasicSearchbar onKeyPress={handleNftSearch} sx={{ left: 0, width: "80%", p: 1 }}/>
@@ -293,5 +343,32 @@ const getNFTs = async ({ collectionId, serials, from, to }) => {
       nftsObject = (await axios.post('/api/collection/nfts', { collectionId, idOnly: false, from, to }));
     }
     return nftsObject.data.collection.nfts;
+  }
+}
+
+const voteOnCollection = async (nftId) => {
+  let voteObject = (await axios.post('/api/nft/vote', { nftId:nftId}));
+  return voteObject;
+}
+
+const containsUser = (nft, user) =>{
+  console.log(nft);
+  if(nft.properties){
+    if(nft.properties["6464dae89c62e203e8e57cd6"]){
+      if(nft.properties["6464dae89c62e203e8e57cd6"].votes){
+        if(nft.properties["6464dae89c62e203e8e57cd6"].votes.includes(user.handle)){
+          console.log("here");
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } else {
+    return false;
   }
 }

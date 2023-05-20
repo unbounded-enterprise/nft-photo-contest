@@ -58,38 +58,25 @@ export const HomeHero = (props) => {
             </span>
           ))}
         </Typography>
-        { (!user) ? (
-          <NextLink href={'/explorer/slot/64661df89c62e203e8fe61c1'} legacyBehavior passHref>
-            <Button 
-              sx={{
-                height: '4em',
-                width: '20em',
-                backgroundColor: '#045CD2', 
-                color: 'white',
-                fontSize: '1em',
-                px: '1em',
-                textTransform: 'none',
-                '&:hover': {
-                  backgroundColor: '#045CD2',
-                  transform: 'scale(1.01)',
-                }
-              }}
-            >
-              View Entries
-            </Button>
-          </NextLink>
-        ) : (
-          <Typography
-            align="left"
-            variant="h5"
-            sx={{ 
-              mb: { xs: '.5em', md: '2em' }, 
-              mr: { xs: '1em', md: '3em' } 
+        <NextLink href={'/explorer/slot/64661df89c62e203e8fe61c1'} legacyBehavior passHref>
+          <Button 
+            sx={{
+              height: '4em',
+              width: '20em',
+              backgroundColor: '#045CD2', 
+              color: 'white',
+              fontSize: '1em',
+              px: '1em',
+              textTransform: 'none',
+              '&:hover': {
+                backgroundColor: '#045CD2',
+                transform: 'scale(1.01)',
+              }
             }}
           >
-            Greetings ${user.handle}!
-          </Typography>
-        ) }
+            View Entries
+          </Button>
+        </NextLink>
       </Container>
     </Box>
   );

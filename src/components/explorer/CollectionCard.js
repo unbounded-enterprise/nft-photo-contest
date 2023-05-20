@@ -34,19 +34,11 @@ export const CollectionCard = ({ search, collection, slot }) =>{
               { collection.collectionName }
             </Typography>
             <Box>
-              <Typography variant="p2" sx={{ fontWeight: "bold", lineHeight:"25px", fontSize: fontSizeP2 }}>
-                Type:&nbsp;
-              </Typography>
-              <Typography variant="p2" sx={{ lineHeight:"25px", fontSize: fontSizeP2 }}>
-                { collection.type }
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="p2" sx={{ fontWeight: "bold", lineHeight:"25px", fontSize: fontSizeP2 }}>
+              <Typography variant="p2" sx={{ fontWeight: "bold", lineHeight:"25px", fontSize: fontSizeP2  }}>
                 Created by:&nbsp;
               </Typography>
               <Typography variant="p2" sx={{ lineHeight:"25px", fontSize: fontSizeP2 }}>
-                { collection.handle }
+                { collection.tags[0] }
               </Typography>
             </Box>
             <Box>

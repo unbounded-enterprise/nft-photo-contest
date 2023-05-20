@@ -1,7 +1,8 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { Box, Breadcrumbs, Grid, Link, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { BasicSearchbar } from 'src/components/widgets/basic/basic-searchbar';
 import { MainLayout } from 'src/components/main-layout';
 import axios from 'axios';
 import { NftDetailDisplay } from 'src/components/DisplayNFT/NftDetailDisplay';
@@ -30,8 +31,36 @@ const InventoryNftDetailPage = ()=>{
   const [slotId, setSlotId] = useState(null);
   const [collectionId, setCollectionId] = useState(null);
   const [nftId, setNftId] = useState(null);
+  const [handleEntry, setHandleEntry] = useState(null);
+  const [sent, setSent] = useState(false);
+  const [badSend, setBadSend] = useState(false);
+
   const { user } = useAuth();
 
+  const handleSend = async () => {
+    try {
+      let response = await sendNFT(chosenNft, handleEntry);
+      if (response.status === 200) {
+        setSent(true);
+      }
+    } catch (error) {
+      setBadSend(true);
+    }
+
+    /*let response = await sendNFT(chosenNft, handleEntry);
+    if (response.status === 200) {
+      setSent(true);
+    } else {
+      if(!sent){
+        setBadSend(true);
+      }
+    }*/
+  };
+
+  const handleEntryHandler = (e) => {
+    setHandleEntry(e.target.value);
+    console.log(e.target.value);
+  }
   
   useEffect(() => {
     if (router.isReady) {
@@ -93,7 +122,7 @@ const InventoryNftDetailPage = ()=>{
   
   if (!user) return <HomeHandcash />;
   if (!(chosenCollection && chosenSlot && chosenNft && app)) return loading;
-    
+  
   return (
     <Box sx={{ backgroundColor: 'none', py: 5 }}>
       <Box sx={{
@@ -130,7 +159,7 @@ const InventoryNftDetailPage = ()=>{
             </Grid>
             <Grid item xs={12}>
               <CollectionDetailsInfos
-                creator={chosenCollection.handle}
+                creator={ chosenCollection.tags[0] }
                 appName={app.appName}
                 slotName={chosenSlot.slotName}
                 totalSupply={chosenCollection.maximum}
@@ -139,6 +168,38 @@ const InventoryNftDetailPage = ()=>{
                 nftLocation={chosenNft.location}
               />
             </Grid>
+            <Grid container spacing={2} pt={1} alignItems="center">
+            <Grid item xs={12} md={6} lg={4}>
+              <Button fullWidth sx={{
+                backgroundColor: '#045CD2', 
+                color: 'white',
+                fontSize: '1em',
+                px: '1em',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#045CD2',
+                  transform: 'scale(1.01)',
+                }
+              }} onClick={handleSend}>
+                Send
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <TextField fullWidth onChange={handleEntryHandler} label="Recipient Handle" sx={{ left:0, p: 1 }}/>
+            </Grid>
+            {sent ? 
+            <Grid item sm={12} md={6} lg={4}>
+              <Typography color="text.primary" fontWeight="bold">
+                Sent Successfully
+              </Typography>           
+            </Grid> : <></> }
+            {badSend ? 
+            <Grid item sm={12} md={6} lg={4}>
+              <Typography color="text.primary">
+                Send Unsuccesful
+              </Typography>           
+            </Grid> : <></> }
+              </Grid>
             <Grid item container xs={12} sx={{ my: '2rem' }}>
               <NftDetailDisplay nft={chosenNft}/>
             </Grid>
@@ -183,4 +244,10 @@ const getNft = async (nftId) => {
     nftObject = (await axios.post('/api/nft/info', { nftId }));
   } 
   return nftObject.data.nfts[0];
+}
+
+const sendNFT = async (nft, recipientHandle)=>{
+  let nftsObject;
+  nftsObject = (await axios.post('/api/nft/send', { recipientHandle: recipientHandle, nftId: nft.nftId }));
+  return nftsObject;
 }

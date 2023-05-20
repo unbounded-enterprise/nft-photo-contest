@@ -128,7 +128,7 @@ const ExploreNftDetailPage = () => {
               {chosenCollection.collectionName} #{chosenNft.serial}
             </Typography>
             <CollectionDetailsInfos
-              creator={chosenCollection.handle}
+              creator={ chosenCollection.tags[0] }
               appName={app.appName}
               slotName={chosenSlot.slotName}
               totalSupply={chosenCollection.maximum}

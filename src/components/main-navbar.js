@@ -8,8 +8,9 @@ import { AccountPopover } from './account-popover';
 import { useAuth } from 'src/hooks/use-auth';
 
 const menuItems = [
-  { label: 'View Entries', value: 'explorerMenuItem', href: '/explorer' },
-  { label: 'My NFTs', value: 'nftsMenuItem', href: '/inventory' },
+  { label: 'Home', value: 'homeMenuItem', href: '/' },
+  { label: 'View Entries', value: 'explorerMenuItem', href: '/explorer/slot/64661df89c62e203e8fe61c1' },
+  { label: 'My NFTs', value: 'nftsMenuItem', href: '/inventory/slot/64661df89c62e203e8fe61c1' },
   { label: 'Asset Layer', value: 'docsMenuItem', href: 'https://www.assetlayer.com' },
 ];
 
@@ -111,7 +112,7 @@ export const MainNavbar = (props) => {
                 <Typography color="textSecondary" variant="subtitle2">Entries</Typography>
               </Button>
             </NextLink>
-            <NextLink href="/inventory" passHref legacyBehavior>
+            <NextLink href="/inventory/slot/64661df89c62e203e8fe61c1" passHref legacyBehavior>
               <Button sx={{ borderRadius: 1, py: '0.25em', '&:hover': { backgroundColor: 'rgba(155,155,155,0.1)' } }}>
                 <Typography color="textSecondary" variant="subtitle2">My NFTs</Typography>
               </Button>

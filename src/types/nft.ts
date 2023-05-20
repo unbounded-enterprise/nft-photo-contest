@@ -10,6 +10,11 @@ export interface SendNFTProps {
     recipientHandle: string;
 }
 
+export interface VoteNFTProps {
+    nftId: string;
+    properties: object;
+}
+
 export interface GetNFTSlotsProps {
     handle: string;
     slotIds: string[];

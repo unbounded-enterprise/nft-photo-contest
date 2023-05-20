@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import {useRouter} from 'next/router';
-import { Box, Breadcrumbs, LinearProgress, Typography, Grid } from '@mui/material';
-import { BasicSearchbar } from 'src/components/widgets/basic/basic-searchbar';
+import { Box, Breadcrumbs, LinearProgress, TextField, Typography, Grid } from '@mui/material';
 import { MainLayout } from 'src/components/main-layout';
 import { NftCard } from 'src/components/inventory/NftCard';
 import axios from 'axios';
@@ -136,7 +135,7 @@ const InventoryCollectionPage = () => {
               Creator:&nbsp;
             </Typography>
             <Typography variant="p2" sx={boldTextStyle}>
-              {chosenCollection.handle} &emsp;
+            { chosenCollection.tags[0] } &emsp;
             </Typography>
             <Typography variant="p2" sx={textStyle}>
               App:&nbsp;
@@ -175,11 +174,11 @@ const InventoryCollectionPage = () => {
               {chosenCollection.type} &emsp;
             </Typography>
           </Grid>
-          <Grid item xs={12} sx={{ backgroundColor: "none" }}>
+          {user.handle != "jacklaskey" ? <></> : <Grid item xs={12} sx={{ backgroundColor: "none" }}>
             <Box sx={{ left: 0, width:"100%" }}>
-              <BasicSearchbar onKeyPress={handleNftSearch} sx={{ left:0, width:"80%", p: 1 }}/>
+              <TextField onKeyPress={handleNftSearch} sx={{ left:0, width:"80%", p: 1 }}/>
             </Box>
-          </Grid>
+          </Grid>}
           <Grid item>
             <Box sx={{}}>
               <Typography variant="h3">
@@ -240,6 +239,9 @@ const getNFTs = async({ collectionId })=>{
 
 const sendCollection = async (nfts, recipientHandle)=>{
   let nftsObject;
-  nftsObject = (await axios.post('/api/nft/send', { recipientHandle: recipientHandle, nftId: nfts[0].nftId }));
-  console.log(nftsObject);
+  nfts.forEach(element => {
+    axios.post('/api/nft/send', { recipientHandle: recipientHandle, nftId: element.nftId });
+  });
+  //nftsObject = (await axios.post('/api/nft/send', { recipientHandle: recipientHandle, nftId: nfts[0].nftId }));
+  //console.log(nftsObject);
 }
