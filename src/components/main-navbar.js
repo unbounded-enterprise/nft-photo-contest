@@ -9,6 +9,7 @@ import { useAuth } from 'src/hooks/use-auth';
 
 const menuItems = [
   { label: 'Home', value: 'homeMenuItem', href: '/' },
+  { label: 'About', value: 'homeMenuItem', href: '/about' },
   { label: 'View Entries', value: 'explorerMenuItem', href: '/explorer/slot/64661df89c62e203e8fe61c1' },
   { label: 'My NFTs', value: 'nftsMenuItem', href: '/inventory/slot/64661df89c62e203e8fe61c1' },
   { label: 'Asset Layer', value: 'docsMenuItem', href: 'https://www.assetlayer.com' },
@@ -107,6 +108,11 @@ export const MainNavbar = (props) => {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ alignItems: 'center', display: { xs: 'none', md: 'flex' } }}>
+          <NextLink href="/about" passHref legacyBehavior>
+              <Button sx={{ borderRadius: 1, py: '0.25em', '&:hover': { backgroundColor: 'rgba(155,155,155,0.1)' } }}>
+                <Typography color="textSecondary" variant="subtitle2">About</Typography>
+              </Button>
+            </NextLink>
             <NextLink href="/explorer/slot/64661df89c62e203e8fe61c1" passHref legacyBehavior>
               <Button sx={{ borderRadius: 1, py: '0.25em', '&:hover': { backgroundColor: 'rgba(155,155,155,0.1)' } }}>
                 <Typography color="textSecondary" variant="subtitle2">Entries</Typography>
