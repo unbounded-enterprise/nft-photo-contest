@@ -321,7 +321,7 @@ ExploreCollectionPage.getLayout = (page) => (
       <Head>
       {/* Open Graph */}
       <meta property="og:url" content="nftphotocontest.com" key="ogurl" />
-      <meta property="og:image" content="/static/collectionImage.png" key="ogimage" />
+      <meta property="og:image" content="https://nftphotocontest.com/static/collectionImage.png" key="ogimage" />
       <meta property="og:site_name" content="NFT Photo Contest" key="ogsitename" />
       <meta property="og:title" content="NFT Photo Contest" key="ogtitle" />
       <meta property="og:description" content="This is an awesome NFT photo contest" key="ogdesc" />
