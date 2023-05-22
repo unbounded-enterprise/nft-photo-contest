@@ -5,10 +5,14 @@ import { Card, CardMedia, Grid } from '@mui/material';
 import { MainLayout } from '../components/main-layout';
 import { HomeHero } from '../components/home/home-hero';
 import { parseBasicErrorClient } from 'src/_api_/auth-api';
+import { useRouter } from 'next/router';
+
 
 // NOTE: must enable SSR for app here to enable SEO for page (unimplemented)
 
 const Page = () => {
+  const router = useRouter();
+
   const [app, setApp] = useState(null);
 
   useEffect(() => {
@@ -29,6 +33,12 @@ const Page = () => {
       <title>
         { app.appName }
       </title>
+      <meta name="twitter:card" content="summary" key="twcard" />
+      <meta property="og:url" content={router.asPath} key="ogurl" />
+      <meta property="og:image" content={app.appImage} key="ogimage" />
+      <meta property="og:site_name" content="NFT Photo Contest" key="ogsitename" />
+      <meta property="og:title" content="NFT Photo Contest" key="ogtitle" />
+      <meta property="og:description" content={"See what's happening at the London Blockchain Convention by exploring the NFT Photo Contest and voting for your favorite entries!"} key="ogdesc" />
     </Head>
     <main>
       <Grid container spacing={2} mb={"1em"}>
