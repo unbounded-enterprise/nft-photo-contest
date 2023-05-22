@@ -164,11 +164,11 @@ const ExploreCollectionPage = () => {
   return (<>
     <Head>
       {/* Open Graph */}
-      <meta property="og:url" content="nftphotocontest.com" key="ogurl" />
+      <meta property="og:url" content={router.asPath} key="ogurl" />
       <meta property="og:image" content={chosenCollection.collectionImage} key="ogimage" />
-      <meta property="og:site_name" content={app.appName} key="ogsitename" />
-      <meta property="og:title" content={app.appName} key="ogtitle" />
-      <meta property="og:description" content={app.appDescription} key="ogdesc" />
+      <meta property="og:site_name" content={chosenCollection.collectionName} key="ogsitename" />
+      <meta property="og:title" content={chosenCollection.collectionName} key="ogtitle" />
+      <meta property="og:description" content={"Vote for " + chosenCollection.tags[0] + "'s entry into the NFT Photo Contest!"} key="ogdesc" />
     </Head>
     <Box sx={{ backgroundColor: 'none', py: 5 }}>
       <Box sx={{
@@ -317,17 +317,9 @@ const ExploreCollectionPage = () => {
 }
 
 ExploreCollectionPage.getLayout = (page) => (
-    <> <Head>
-    {/* Open Graph */}
-        <meta property="og:url" content="nftphotocontest.com" key="ogurl" />
-    <meta property="og:image" content="https://nftphotocontest.com/static/collectionImage.png" key="ogimage" />
-  <meta property="og:site_name" content="NFT Photo Contest" key="ogsitename" />
-  <meta property="og:title" content="NFT Photo Contest" key="ogtitle" />
-  <meta property="og:description" content="This is an awesome NFT photo contest" key="ogdesc" />
-</Head>
     <MainLayout>
       { page }
-    </MainLayout></>
+    </MainLayout>
   );
 
 export default ExploreCollectionPage;
