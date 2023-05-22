@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -160,7 +161,15 @@ const ExploreCollectionPage = () => {
   //if (!user) return <HomeHandcash />;
   if (!(chosenCollection && chosenSlot && app)) return loading;
 
-  return (
+  return (<>
+    <Head>
+      {/* Open Graph */}
+      <meta property="og:url" content="nftphotocontest.com" key="ogurl" />
+      <meta property="og:image" content={chosenCollection.collectionImage} key="ogimage" />
+      <meta property="og:site_name" content={app.appName} key="ogsitename" />
+      <meta property="og:title" content={app.appName} key="ogtitle" />
+      <meta property="og:description" content={app.appDescription} key="ogdesc" />
+    </Head>
     <Box sx={{ backgroundColor: 'none', py: 5 }}>
       <Box sx={{
         width: '95%',
@@ -303,6 +312,7 @@ const ExploreCollectionPage = () => {
         </Grid>
       </Box>
     </Box>
+    </>
   )
 }
 
