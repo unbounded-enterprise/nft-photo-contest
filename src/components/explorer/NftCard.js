@@ -5,7 +5,8 @@ var menuViewExpressionValue;
 
 export const NftCard = ({ collection, nft, slot }) => {
   nft.expressionValues.forEach((element) => {
-    if (element.expression.expressionName === "Menu View") {
+    if (element.expression.expressionName === "Full Image") {
+      console.log(element.value);
       menuViewExpressionValue = element.value;
     }
   });
@@ -20,7 +21,7 @@ export const NftCard = ({ collection, nft, slot }) => {
           m: 1,
           minWidth: "300px"
         }}>
-          <img src={menuViewExpressionValue} alt='Collection Image' style={{ maxHeight: '300px', maxWidth: '300px', placeSelf: 'center' }} />
+          <img src={menuViewExpressionValue} alt='Collection Image' style={{ maxHeight: '500px', maxWidth: '300px', placeSelf: 'center' }} />
           <Typography variant="p2" sx={{ padding: 1, fontWeight: "bold" }}>
             {collection.collectionName} #{nft.serial}
           </Typography>
