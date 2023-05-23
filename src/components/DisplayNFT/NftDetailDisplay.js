@@ -1,18 +1,38 @@
-import dynamic from 'next/dynamic'
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, FormControl, Grid, InputLabel, Typography, Select, Stack, MenuItem, 
-  TableContainer, Table, TableHead, TableRow, TableCell, TableBody, useMediaQuery, appBarClasses } from '@mui/material';
-import { getExpressionValue, parseAnimations, playAnimation } from './DisplayNFT';
-import AudioDisplay from './MediaTypes/AudioDisplay';
-import DropdownMenu from '../widgets/DropdownMenu';
-import { NftPropertyDisplay } from './NftPropertyDisplay';
+import dynamic from "next/dynamic";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Card,
+  FormControl,
+  Grid,
+  InputLabel,
+  Typography,
+  Select,
+  Stack,
+  MenuItem,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  useMediaQuery,
+  appBarClasses,
+} from "@mui/material";
+import {
+  getExpressionValue,
+  parseAnimations,
+  playAnimation,
+} from "./DisplayNFT";
+import AudioDisplay from "./MediaTypes/AudioDisplay";
+import DropdownMenu from "../widgets/DropdownMenu";
+import { NftPropertyDisplay } from "./NftPropertyDisplay";
 
 const DisplayNFTWithNoSSR = dynamic(
-  () => import('src/components//DisplayNFT/DisplayNFT'),
+  () => import("src/components//DisplayNFT/DisplayNFT"),
   { ssr: false }
 );
-
-
 
 const ButtonGrid = ({ buttonTexts, onChange }) => {
   const handleClick = (text) => {
@@ -29,18 +49,24 @@ const ButtonGrid = ({ buttonTexts, onChange }) => {
                 <Button
                   variant="contained"
                   sx={{
-                    width: '100%',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    backgroundColor: '#1c6cf9',
-                    color: 'white',
-                    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-                    borderRadius: '8px',
-                    fontSize: { xs: '10px', sm: '12px', md: '14px', lg: '16px', xl: '18px' },
+                    width: "100%",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    backgroundColor: "#1c6cf9",
+                    color: "white",
+                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                    borderRadius: "8px",
+                    fontSize: {
+                      xs: "10px",
+                      sm: "12px",
+                      md: "14px",
+                      lg: "16px",
+                      xl: "18px",
+                    },
                   }}
                   onClick={() => handleClick(text)}
-                  >
+                >
                   {text}
                 </Button>
               </Box>
@@ -66,20 +92,23 @@ export function parseExpressionNames(nft) {
 }
 
 export const NftDetailDisplay = ({ nft }) => {
-  slotButtonStyle = { color: 'white', border: '1px solid white', fontSize: '4vw' };
+  slotButtonStyle = {
+    color: "white",
+    border: "1px solid white",
+    fontSize: "4vw",
+  };
   const [expressionNames, setExpressionNames] = useState([]);
   const [spine, setSpine] = useState(null);
-  const [audioFile, setAudioFile] = useState(null); 
+  const [audioFile, setAudioFile] = useState(null);
   const [animationNames, setAnimationNames] = useState(null);
-  const [currentExpression, setCurrentExpression] = useState('Menu View');
+  const [currentExpression, setCurrentExpression] = useState("Menu View");
 
+  const matches900 = useMediaQuery("(max-width:900px)");
+  const matches1920 = useMediaQuery("(max-width:1920px)");
 
-  const matches900 = useMediaQuery('(max-width:900px)');
-  const matches1920 = useMediaQuery('(max-width:1920px)');
-
-  useEffect(()=>{
+  useEffect(() => {
     setExpressionNames(parseExpressionNames(nft));
-  }, [nft])
+  }, [nft]);
 
   function onLoaded(loadedSpine) {
     setSpine(loadedSpine);
@@ -100,25 +129,26 @@ export const NftDetailDisplay = ({ nft }) => {
     }
   }
 
-
-
   return (
     <>
       {nft ? (
         <Grid container key={nft.nftId} xs={12}>
-        <Grid item xs={matches900 ? 12 : "auto"}>
-            <Box display="flex" justifyContent={matches900 ? "center" : "flex-start"}>
+          <Grid item xs={matches900 ? 12 : "auto"}>
+            <Box
+              display="flex"
+              justifyContent={matches900 ? "center" : "flex-start"}
+            >
               <Card
                 variant="outlined"
                 sx={{
-                  boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                   p: 1,
                   m: 1,
-                  width: matches900 ? '90vw' : '35vw',
-                  height: matches900 ? '90vw' : '35vw',
-                  maxWidth: '40vh',
-                  maxHeight: '40vh',
-                  position: 'relative',
+                  width: matches900 ? "90vw" : "35vw",
+                  height: matches900 ? "90vw" : "35vw",
+                  maxWidth: "40vh",
+                  maxHeight: "40vh",
+                  position: "relative",
                 }}
               >
                 <DisplayNFTWithNoSSR
@@ -131,25 +161,37 @@ export const NftDetailDisplay = ({ nft }) => {
               </Card>
             </Box>
           </Grid>
-          <Grid item xs={matches900 ? 12 : 6} sx={{ padding: '1rem', paddingLeft: { xs: '1rem', sm: '3rem' } }}>
-           
-          <Stack spacing={3}>
+          <Grid
+            item
+            xs={matches900 ? 12 : 6}
+            sx={{ padding: "1rem", paddingLeft: { xs: "1rem", sm: "3rem" } }}
+          >
+            <Stack spacing={3}>
               <Typography variant="h5">Expressions</Typography>
-              <Box sx={{ maxWidth: '15rem' }}>
-                <DropdownMenu optionsArray={expressionNames} onChange={setCurrentExpression} defaultValue={'Menu View'} />
+              <Box sx={{ maxWidth: "15rem" }}>
+                <DropdownMenu
+                  optionsArray={expressionNames}
+                  onChange={setCurrentExpression}
+                  defaultValue={"Menu View"}
+                />
               </Box>
               {animationNames && animationNames.length > 0 && (
                 <>
                   <Typography variant="h5">Animations</Typography>
-                  <Box sx={{ width: '100%', maxHeight: '40vh', overflow: 'auto' }}>
-                    <ButtonGrid buttonTexts={animationNames} onChange={animationChange} />
+                  <Box
+                    sx={{ width: "100%", maxHeight: "40vh", overflow: "auto" }}
+                  >
+                    <ButtonGrid
+                      buttonTexts={animationNames}
+                      onChange={animationChange}
+                    />
                   </Box>
                 </>
               )}
               {audioFile && (
                 <>
                   <Stack alignItems="flex-start" justifyContent="flex-start">
-                    <Box sx={{ width: '20rem' }}>
+                    <Box sx={{ width: "20rem" }}>
                       <AudioDisplay
                         src={audioFile}
                         backgroundImage={null}
@@ -161,9 +203,16 @@ export const NftDetailDisplay = ({ nft }) => {
                 </>
               )}
             </Stack>
-            </Grid>
+          </Grid>
           {matches900 && (
-            <Grid item xs={12} md={12} lg={12} xl={12} sx={{ backgroundColor: 'none' }}>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              xl={12}
+              sx={{ backgroundColor: "none" }}
+            >
               <NftPropertyDisplay nft={nft} />
             </Grid>
           )}
@@ -174,7 +223,14 @@ export const NftDetailDisplay = ({ nft }) => {
         </Grid>
       )}
       {!matches900 && (
-        <Grid item xs={12} md={12} lg={12} xl={12} sx={{ backgroundColor: 'none' }}>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={12}
+          xl={12}
+          sx={{ backgroundColor: "none" }}
+        >
           <NftPropertyDisplay nft={nft} />
         </Grid>
       )}

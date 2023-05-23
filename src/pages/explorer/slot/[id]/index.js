@@ -1,23 +1,48 @@
-import { useEffect, useState} from 'react';
-import NextLink from 'next/link';
-import {useRouter} from 'next/router';
-import { Box, Breadcrumbs, Button, Typography, Grid, Link, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { BasicSearchbar } from 'src/components/widgets/basic/basic-searchbar';
-import { MainLayout } from 'src/components/main-layout';
-import { CollectionCard } from 'src/components/explorer/CollectionCard';
-import DropdownMenu from '../../../../components/widgets/DropdownMenu';
-import axios from 'axios';
-import React from 'react';
-import { parseBasicErrorClient } from 'src/_api_/auth-api';
-import { styled } from '@mui/system';
-import { useAuth } from 'src/hooks/use-auth';
-import { HomeHandcash } from 'src/components/home/home-handcash';
+import { useEffect, useState } from "react";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Typography,
+  Grid,
+  Link,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { BasicSearchbar } from "src/components/widgets/basic/basic-searchbar";
+import { MainLayout } from "src/components/main-layout";
+import { CollectionCard } from "src/components/explorer/CollectionCard";
+import DropdownMenu from "../../../../components/widgets/DropdownMenu";
+import axios from "axios";
+import React from "react";
+import { parseBasicErrorClient } from "src/_api_/auth-api";
+import { styled } from "@mui/system";
+import { useAuth } from "src/hooks/use-auth";
+import { HomeHandcash } from "src/components/home/home-handcash";
 
+const CenteredImage = styled("img")({
+  display: "block",
+  marginLeft: "auto",
+  maxWidth: "200px",
+  marginRight: "auto",
+  width: "50%",
+});
+const slotButtonStyle = {
+  color: "blue",
+  border: "1px solid blue",
+  fontSize: "1vw",
+};
 
-const CenteredImage = styled('img')({display: 'block', marginLeft: 'auto', maxWidth: '200px', marginRight: 'auto', width: '50%'});
-const slotButtonStyle = { color: 'blue', border: '1px solid blue', fontSize: '1vw' };
-
-const loading = <> <CenteredImage src="/static/loader.gif" alt="placeholder" /> </>;
+const loading = (
+  <>
+    {" "}
+    <CenteredImage src="/static/loader.gif" alt="placeholder" />{" "}
+  </>
+);
 
 export const collectionSortMethods = {
   maximum: maximumSort,
@@ -36,39 +61,39 @@ function maximumSort(a, b) {
   }
   return 0;
 }
-  
+
 function maximumSortReverse(a, b) {
   if (a && b) {
     return a.maximum - b.maximum;
   }
   return 0;
 }
-  
+
 function mintedSort(a, b) {
   if (a && b) {
     return b.mintedAmt - a.mintedAmt;
   }
   return 0;
 }
-  
+
 function mintedSortReverse(a, b) {
   if (a && b) {
     return a.mintedAmt - b.mintedAmt;
   }
   return 0;
 }
-  
+
 function newestSort(a, b) {
   if (a && b) {
     return a.createdAt - b.createdAt;
-  } 
+  }
   return 0;
 }
-  
+
 function oldestSort(a, b) {
   if (a && b) {
     return b.createdAt - a.createdAt;
-  } 
+  }
   return 0;
 }
 
@@ -79,7 +104,7 @@ function aToZ(a, b) {
     } else if (b.collectionName > a.collectionName) {
       return -1;
     }
-  } 
+  }
   return 0;
 }
 
@@ -90,7 +115,7 @@ function zToA(a, b) {
     } else if (b.collectionName > a.collectionName) {
       return 1;
     }
-  } 
+  }
   return 0;
 }
 
@@ -105,18 +130,17 @@ const ExploreSlotPage = () => {
   const [minted, setMinted] = useState(0);
   const { user } = useAuth();
 
-
-  const handleSearch = e =>{
+  const handleSearch = (e) => {
     setSearch(e.target.value);
-  }
+  };
 
   const handleSelect = (value) => {
     setSort(value);
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (router.isReady) {
-      setThisLink(router.query.id.replace("/explorer/slot/",""));
+      setThisLink(router.query.id.replace("/explorer/slot/", ""));
     }
   }, [router.isReady]);
 
@@ -128,7 +152,7 @@ const ExploreSlotPage = () => {
         })
         .catch((e) => {
           const error = parseBasicErrorClient(e);
-          console.log('setting error: ', error.message);
+          console.log("setting error: ", error.message);
         });
     }
   }, [thisLink]);
@@ -141,7 +165,7 @@ const ExploreSlotPage = () => {
         })
         .catch((e) => {
           const error = parseBasicErrorClient(e);
-          console.log('setting error: ', error.message);
+          console.log("setting error: ", error.message);
         });
     }
   }, [thisLink]);
@@ -154,7 +178,7 @@ const ExploreSlotPage = () => {
         })
         .catch((e) => {
           const error = parseBasicErrorClient(e);
-          console.log('setting error: ', error.message);
+          console.log("setting error: ", error.message);
         });
     }
   }, [sort]);
@@ -166,12 +190,12 @@ const ExploreSlotPage = () => {
       })
       .catch((e) => {
         const error = parseBasicErrorClient(e);
-        console.log('setting error: ', error.message);
+        console.log("setting error: ", error.message);
       });
   }, []);
 
   useEffect(() => {
-    if(collections){
+    if (collections) {
       let total = 0;
       collections.forEach((collection) => {
         total += collection.minted;
@@ -183,42 +207,49 @@ const ExploreSlotPage = () => {
   //if (!user) return <HomeHandcash />;
   if (!(app && chosenSlot && collections)) return loading;
 
-  const sharedSx = { font: 'nunito', lineHeight: '40px', fontSize: { xs: '12px', sm: '12px', md: '14px', lg: '16px', xl: '18px' } };
-  const sharedSxBold = { fontWeight: 'bold', font: 'nunito', lineHeight: '40px', fontSize: { xs: '12px', sm: '12px', md: '14px', lg: '16px', xl: '18px' } };
+  const sharedSx = {
+    font: "nunito",
+    lineHeight: "40px",
+    fontSize: { xs: "12px", sm: "12px", md: "14px", lg: "16px", xl: "18px" },
+  };
+  const sharedSxBold = {
+    fontWeight: "bold",
+    font: "nunito",
+    lineHeight: "40px",
+    fontSize: { xs: "12px", sm: "12px", md: "14px", lg: "16px", xl: "18px" },
+  };
 
-  
   const sortOptions = [
-    { value: 'maximum', display: 'Maximum: High to Low' },
-    { value: 'maximumReverse', display: 'Maximum: Low to High' },
-    { value: 'minted', display: 'Minted: High to Low' },
-    { value: 'mintedReverse', display: 'Minted: Low to High' },
-    { value: 'newest', display: 'Newest' },
-    { value: 'oldest', display: 'Oldest' },
-    { value: 'aToZ', display: 'Alphabetical' },
-    { value: 'zToA', display: 'Reverse Alphabetical' },
+    { value: "maximum", display: "Maximum: High to Low" },
+    { value: "maximumReverse", display: "Maximum: Low to High" },
+    { value: "minted", display: "Minted: High to Low" },
+    { value: "mintedReverse", display: "Minted: Low to High" },
+    { value: "newest", display: "Newest" },
+    { value: "oldest", display: "Oldest" },
+    { value: "aToZ", display: "Alphabetical" },
+    { value: "zToA", display: "Reverse Alphabetical" },
   ];
-  
 
   return (
-    <Box sx={{ backgroundColor: 'none', py: 5 }}>
-      <Box sx={{
-        width: '95%',
-        alignSelf: 'stretch',
-        marginLeft: "auto",
-        marginRight: "auto",
-        py: 1,
-        px: {xs:2, sm:5},
-        backgroundColor: 'none'
-      }}>
+    <Box sx={{ backgroundColor: "none", py: 5 }}>
+      <Box
+        sx={{
+          width: "95%",
+          alignSelf: "stretch",
+          marginLeft: "auto",
+          marginRight: "auto",
+          py: 1,
+          px: { xs: 2, sm: 5 },
+          backgroundColor: "none",
+        }}
+      >
         <Grid container spacing={1}>
           <Grid item>
             <Breadcrumbs aria-label="breadcrumb">
               <NextLink underline="hover" color="inherit" href="/explorer">
                 App
               </NextLink>
-              <Typography color="text.primary">
-                Slot
-              </Typography>
+              <Typography color="text.primary">Slot</Typography>
             </Breadcrumbs>
           </Grid>
           <Grid item xs={12} sx={{ backgroundColor: "none" }}>
@@ -232,8 +263,8 @@ const ExploreSlotPage = () => {
               Slot:&nbsp;
             </Typography>
             <Typography variant="p2" sx={sharedSx}>
-              { chosenSlot.slotName } 
-            </Typography> 
+              {chosenSlot.slotName}
+            </Typography>
           </Grid>
           <Grid item xs={12} sx={{ backgroundColor: "none" }}>
             <Typography variant="p2" sx={sharedSxBold}>
@@ -250,54 +281,68 @@ const ExploreSlotPage = () => {
               <br></br>
             </Typography>
           </Grid>
-          <Grid item xs={12} sx={{backgroundColor: "none"}}>
-            <Box sx={{left:0, width:"100%"}}>
-              <BasicSearchbar onChange={handleSearch} sx={{ left: 0, width: "80%", p: 1 }}/>
-              <DropdownMenu sx={{ width: '20%', p: 1, right: 0 }} optionsArray={sortOptions} onChange={handleSelect} label='Sort' defaultValue={'maximum'} />
+          <Grid item xs={12} sx={{ backgroundColor: "none" }}>
+            <Box sx={{ left: 0, width: "100%" }}>
+              <BasicSearchbar
+                onChange={handleSearch}
+                sx={{ left: 0, width: "80%", p: 1 }}
+              />
+              <DropdownMenu
+                sx={{ width: "20%", p: 1, right: 0 }}
+                optionsArray={sortOptions}
+                onChange={handleSelect}
+                label="Sort"
+                defaultValue={"maximum"}
+              />
             </Box>
           </Grid>
           <Grid item xs={12}>
             <Grid container>
-              { collections.map((collection) => (
+              {collections.map((collection) => (
                 <React.Fragment key={collection.collectionId}>
-                  <CollectionCard search={search} collection={collection} slot={chosenSlot} />
+                  <CollectionCard
+                    search={search}
+                    collection={collection}
+                    slot={chosenSlot}
+                  />
                 </React.Fragment>
-              )) }
+              ))}
             </Grid>
           </Grid>
         </Grid>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-ExploreSlotPage.getLayout = (page) => (
-  <MainLayout>
-    { page }
-  </MainLayout>
-);
+ExploreSlotPage.getLayout = (page) => <MainLayout>{page}</MainLayout>;
 
 const getApp = async () => {
-  const appObject = (await axios.post('/api/app/info', { }));
+  const appObject = await axios.post("/api/app/info", {});
   return appObject.data.app;
-}
+};
 
-const getSlot = async (slotId) => { // just used for testing
-  const slotsObject = (await axios.post('/api/slot/info', { slotId }));
+const getSlot = async (slotId) => {
+  // just used for testing
+  const slotsObject = await axios.post("/api/slot/info", { slotId });
   return slotsObject.data.slot;
-}
-  
+};
+
 const getCollections = async (slot, sortFunction) => {
   if (slot) {
-    const collectionsObject = (await axios.post('/api/slot/collections', { slotId: slot, idOnly: false, includeDeactivated: false }));
+    const collectionsObject = await axios.post("/api/slot/collections", {
+      slotId: slot,
+      idOnly: false,
+      includeDeactivated: false,
+    });
     return collectionsObject.data.slot.collections.sort(maximumSort);
   }
-}
-  
+};
+
 export const sortCollections = async (collections, sortFunction) => {
   const sortMethod = collectionSortMethods[sortFunction];
-  
-  return (!!sortMethod) ? [...collections.sort(sortMethod)] : collections;
-}
+
+  return !!sortMethod ? [...collections.sort(sortMethod)] : collections;
+};
 
 export default ExploreSlotPage;

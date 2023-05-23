@@ -1,26 +1,52 @@
-import { useEffect, useState} from 'react';
-import NextLink from 'next/link';
-import {useRouter} from 'next/router';
-import { Box, Breadcrumbs, Typography, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { BasicSearchbar } from 'src/components/widgets/basic/basic-searchbar';
-import { MainLayout } from 'src/components/main-layout';
-import { CollectionCard } from 'src/components/inventory/CollectionCard';
-import axios from 'axios';
-import React from 'react';
-import { sortCollections, collectionSortMethods } from 'src/pages/explorer/slot/[id]/index';
-import DropdownMenu from '../../../../components/widgets/DropdownMenu';
-import { parseBasicErrorClient } from 'src/_api_/auth-api';
-import { styled } from '@mui/system';
-import { useAuth } from 'src/hooks/use-auth';
-import { HomeHandcash } from 'src/components/home/home-handcash';
+import { useEffect, useState } from "react";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
+import {
+  Box,
+  Breadcrumbs,
+  Typography,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { BasicSearchbar } from "src/components/widgets/basic/basic-searchbar";
+import { MainLayout } from "src/components/main-layout";
+import { CollectionCard } from "src/components/inventory/CollectionCard";
+import axios from "axios";
+import React from "react";
+import {
+  sortCollections,
+  collectionSortMethods,
+} from "src/pages/explorer/slot/[id]/index";
+import DropdownMenu from "../../../../components/widgets/DropdownMenu";
+import { parseBasicErrorClient } from "src/_api_/auth-api";
+import { styled } from "@mui/system";
+import { useAuth } from "src/hooks/use-auth";
+import { HomeHandcash } from "src/components/home/home-handcash";
 
+const CenteredImage = styled("img")({
+  display: "block",
+  marginLeft: "auto",
+  maxWidth: "200px",
+  marginRight: "auto",
+  width: "50%",
+});
+const slotButtonStyle = {
+  color: "blue",
+  border: "1px solid blue",
+  fontSize: "1vw",
+};
 
-const CenteredImage = styled('img')({display: 'block', marginLeft: 'auto', maxWidth: '200px', marginRight: 'auto', width: '50%'});
-const slotButtonStyle = { color: 'blue', border: '1px solid blue', fontSize: '1vw' };
+const loading = (
+  <>
+    {" "}
+    <CenteredImage src="/static/loader.gif" alt="placeholder" />{" "}
+  </>
+);
 
-const loading = <> <CenteredImage src="/static/loader.gif" alt="placeholder" /> </>;
-
-const InventorySlotPage = ()=>{
+const InventorySlotPage = () => {
   const router = useRouter();
   const [thisLink, setThisLink] = useState("");
   const [app, setApp] = useState(null);
@@ -32,18 +58,18 @@ const InventorySlotPage = ()=>{
   const [collectionCounts, setCollectionCounts] = useState({});
   const [activeCollections, setActiveCollections] = useState(null);
   const { user } = useAuth();
-  
+
   const handleSearch = (e) => {
     setSearch(e.target.value);
-  }
+  };
 
   const handleSelect = (value) => {
     setSort(value);
-  }
+  };
 
   useEffect(() => {
     if (router.isReady) {
-      setThisLink(router.query.id.replace("/explorer/slot/",""));
+      setThisLink(router.query.id.replace("/explorer/slot/", ""));
     }
   }, [router.isReady]);
 
@@ -55,7 +81,7 @@ const InventorySlotPage = ()=>{
         })
         .catch((e) => {
           const error = parseBasicErrorClient(e);
-          console.log('setting error: ', error.message);
+          console.log("setting error: ", error.message);
         });
     }
   }, [thisLink]);
@@ -68,10 +94,10 @@ const InventorySlotPage = ()=>{
         })
         .catch((e) => {
           const error = parseBasicErrorClient(e);
-          console.log('setting error: ', error.message);
+          console.log("setting error: ", error.message);
         });
     }
-  }, [chosenSlot])
+  }, [chosenSlot]);
 
   useEffect(() => {
     if (activeCollections) {
@@ -81,7 +107,7 @@ const InventorySlotPage = ()=>{
         })
         .catch((e) => {
           const error = parseBasicErrorClient(e);
-          console.log('setting error: ', error.message);
+          console.log("setting error: ", error.message);
         });
     }
   }, [activeCollections]);
@@ -94,7 +120,7 @@ const InventorySlotPage = ()=>{
         })
         .catch((e) => {
           const error = parseBasicErrorClient(e);
-          console.log('setting error: ', error.message);
+          console.log("setting error: ", error.message);
         });
     }
   }, [sort]);
@@ -106,7 +132,7 @@ const InventorySlotPage = ()=>{
       })
       .catch((e) => {
         const error = parseBasicErrorClient(e);
-        console.log('setting error: ', error.message);
+        console.log("setting error: ", error.message);
       });
   }, []);
 
@@ -115,9 +141,9 @@ const InventorySlotPage = ()=>{
       .then((count) => {
         setTotalNfts(count);
       })
-      .catch(e => { 
+      .catch((e) => {
         const error = parseBasicErrorClient(e);
-        console.log('setting error: ', error.message);
+        console.log("setting error: ", error.message);
       });
   }, [activeCollections]);
 
@@ -135,40 +161,49 @@ const InventorySlotPage = ()=>{
   if (!user) return <HomeHandcash />;
   if (!(app && chosenSlot && collections && collectionCounts)) return loading;
 
-  const sharedSx = { font: 'nunito', lineHeight: '40px', fontSize: { xs: '12px', sm: '12px', md: '14px', lg: '16px', xl: '18px' }};
-  const sharedSxBold = { fontWeight: 'bold', font: 'nunito', lineHeight: '40px', fontSize: { xs: '12px', sm: '12px', md: '14px', lg: '16px', xl: '18px' }};
+  const sharedSx = {
+    font: "nunito",
+    lineHeight: "40px",
+    fontSize: { xs: "12px", sm: "12px", md: "14px", lg: "16px", xl: "18px" },
+  };
+  const sharedSxBold = {
+    fontWeight: "bold",
+    font: "nunito",
+    lineHeight: "40px",
+    fontSize: { xs: "12px", sm: "12px", md: "14px", lg: "16px", xl: "18px" },
+  };
 
   const sortOptions = [
-    { value: 'maximum', display: 'Maximum: High to Low' },
-    { value: 'maximumReverse', display: 'Maximum: Low to High' },
-    { value: 'minted', display: 'Minted: High to Low' },
-    { value: 'mintedReverse', display: 'Minted: Low to High' },
-    { value: 'newest', display: 'Newest' },
-    { value: 'oldest', display: 'Oldest' },
-    { value: 'aToZ', display: 'Alphabetical' },
-    { value: 'zToA', display: 'Reverse Alphabetical' },
+    { value: "maximum", display: "Maximum: High to Low" },
+    { value: "maximumReverse", display: "Maximum: Low to High" },
+    { value: "minted", display: "Minted: High to Low" },
+    { value: "mintedReverse", display: "Minted: Low to High" },
+    { value: "newest", display: "Newest" },
+    { value: "oldest", display: "Oldest" },
+    { value: "aToZ", display: "Alphabetical" },
+    { value: "zToA", display: "Reverse Alphabetical" },
   ];
-  
+
   return (
-    <Box sx={{ backgroundColor: 'none', py: 5 }}>
-      <Box sx={{
-        width: '95%',
-        alignSelf: 'stretch',
-        marginLeft: "auto",
-        marginRight: "auto",
-        py: 1,
-        px: {xs:2, sm:5},
-        backgroundColor: 'none'
-      }}>
+    <Box sx={{ backgroundColor: "none", py: 5 }}>
+      <Box
+        sx={{
+          width: "95%",
+          alignSelf: "stretch",
+          marginLeft: "auto",
+          marginRight: "auto",
+          py: 1,
+          px: { xs: 2, sm: 5 },
+          backgroundColor: "none",
+        }}
+      >
         <Grid container spacing={2}>
           <Grid item>
             <Breadcrumbs aria-label="breadcrumb">
               <NextLink underline="hover" color="inherit" href="/inventory">
                 App
               </NextLink>
-              <Typography color="text.primary">
-                Slot
-              </Typography>
+              <Typography color="text.primary">Slot</Typography>
             </Breadcrumbs>
           </Grid>
           <Grid item xs={12} sx={{ backgroundColor: "none" }}>
@@ -182,7 +217,7 @@ const InventorySlotPage = ()=>{
               Slot:&nbsp;
             </Typography>
             <Typography variant="p2" sx={sharedSx}>
-              { chosenSlot.slotName }
+              {chosenSlot.slotName}
             </Typography>
           </Grid>
           <Grid item xs={12} sx={{ backgroundColor: "none" }}>
@@ -196,21 +231,35 @@ const InventorySlotPage = ()=>{
               Total NFTs Owned:&nbsp;
             </Typography>
             <Typography variant="p2" sx={sharedSx}>
-              { totalNfts }
+              {totalNfts}
               <br></br>
             </Typography>
           </Grid>
-          <Grid item xs={12} sx={{ backgroundColor: "none" }}>        
+          <Grid item xs={12} sx={{ backgroundColor: "none" }}>
             <Box sx={{ left: 0, width: "100%" }}>
-              <BasicSearchbar onChange={handleSearch} sx={{ left: 0, width: "80%", p: 1 }}/>
-              <DropdownMenu sx={{ width: '20%', p: 1, right: 0 }} optionsArray={sortOptions} onChange={handleSelect} label='Sort' defaultValue={'maximum'} />
-            </Box>        
+              <BasicSearchbar
+                onChange={handleSearch}
+                sx={{ left: 0, width: "80%", p: 1 }}
+              />
+              <DropdownMenu
+                sx={{ width: "20%", p: 1, right: 0 }}
+                optionsArray={sortOptions}
+                onChange={handleSelect}
+                label="Sort"
+                defaultValue={"maximum"}
+              />
+            </Box>
           </Grid>
           <Grid item xs={12}>
             <Grid container spacing={1} sx={{ p: 1 }}>
-              { collections.map((collection) => (
+              {collections.map((collection) => (
                 <React.Fragment key={collection.collectionId}>
-                  <CollectionCard search={search} collection={collection} slot={chosenSlot} collectionCount={activeCollections[collection.collectionId]}/>
+                  <CollectionCard
+                    search={search}
+                    collection={collection}
+                    slot={chosenSlot}
+                    collectionCount={activeCollections[collection.collectionId]}
+                  />
                 </React.Fragment>
               ))}
             </Grid>
@@ -218,14 +267,10 @@ const InventorySlotPage = ()=>{
         </Grid>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-InventorySlotPage.getLayout = (page) => (
-  <MainLayout>
-    { page }
-  </MainLayout>
-);
+InventorySlotPage.getLayout = (page) => <MainLayout>{page}</MainLayout>;
 
 const countNfts = async (collectionCounts) => {
   let nftCount = 0;
@@ -235,8 +280,8 @@ const countNfts = async (collectionCounts) => {
     }
   }
   return nftCount;
-}
-  
+};
+
 /*const getNftCounts = async (collections) => {
   var nftCounts = {};
   if (collections){
@@ -250,33 +295,43 @@ const countNfts = async (collectionCounts) => {
     return nftCounts;
   }
 }*/
-  
-const getApp = async () => {
-  const appObject = (await axios.post('/api/app/info', { }));
-  return appObject.data.app;
-}
 
-const getSlot = async (slotId)=>{ // just used for testing
-  const slotsObject = (await axios.post('/api/slot/info', { slotId }));
+const getApp = async () => {
+  const appObject = await axios.post("/api/app/info", {});
+  return appObject.data.app;
+};
+
+const getSlot = async (slotId) => {
+  // just used for testing
+  const slotsObject = await axios.post("/api/slot/info", { slotId });
   return slotsObject.data.slot;
-}
-  
+};
+
 const getCollections = async (activeCollections) => {
   if (activeCollections) {
     const collections = Object.keys(activeCollections);
     if (!(collections.length > 0)) return [];
 
-    const collectionsObject = (await axios.post('/api/collection/info', { collectionIds: collections, idOnly: false, includeDeactivated: false }));
-    return collectionsObject.data.collections.sort(collectionSortMethods.maximum);
+    const collectionsObject = await axios.post("/api/collection/info", {
+      collectionIds: collections,
+      idOnly: false,
+      includeDeactivated: false,
+    });
+    return collectionsObject.data.collections.sort(
+      collectionSortMethods.maximum
+    );
   }
-}
+};
 
 const getActiveCollections = async (slot) => {
   if (slot) {
-    const activeCollectionsObject = await axios.post('/api/nft/slots', { slotIds: [slot], countsOnly: true });
+    const activeCollectionsObject = await axios.post("/api/nft/slots", {
+      slotIds: [slot],
+      countsOnly: true,
+    });
     //console.log(Object.keys(activeCollectionsObject.data.nfts));
     return activeCollectionsObject.data.nfts;
   }
-}
+};
 
 export default InventorySlotPage;
