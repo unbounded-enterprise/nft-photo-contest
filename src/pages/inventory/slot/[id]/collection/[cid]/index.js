@@ -50,6 +50,7 @@ const InventoryCollectionPage = () => {
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(20);
   const [nftSearch, setNftSearch] = useState(null);
+  const [voteCount, setVoteCount] = useState(null);
 
   const [slotId, setSlotId] = useState(null);
   const [collectionId, setCollectionId] = useState(null);
@@ -104,6 +105,20 @@ const InventoryCollectionPage = () => {
           const error = parseBasicErrorClient(e);
           console.log("setting error: ", error.message);
         });
+    }
+  }, [chosenCollection]);
+
+  useEffect(() => {
+    if (chosenCollection) {
+      if (chosenCollection.properties) {
+        if (chosenCollection.properties.votes) {
+          setVoteCount(chosenCollection.properties.votes.length);
+        } else {
+          setVoteCount(0);
+        }
+      } else {
+        setVoteCount(0);
+      }
     }
   }, [chosenCollection]);
 
@@ -201,6 +216,12 @@ const InventoryCollectionPage = () => {
             </Typography>
             <Typography variant="p2" sx={boldTextStyle}>
               {chosenCollection.type} &emsp;
+            </Typography>
+            <Typography variant="p2" sx={textStyle}>
+              Votes:&nbsp;
+            </Typography>
+            <Typography variant="p2" sx={boldTextStyle}>
+              {voteCount} &emsp;
             </Typography>
           </Grid>
           {user.handle != "jacklaskey" ? (

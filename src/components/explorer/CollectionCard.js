@@ -17,6 +17,13 @@ export const CollectionCard = ({ search, collection, slot }) => {
     }
   }
 
+  let votes = 0;
+  if (collection.properties) {
+    if (collection.properties.votes) {
+      votes = collection.properties.votes.length;
+    }
+  }
+
   if (searchTrue) {
     const fontSizeH4 =
       collection.collectionName.length > 50
@@ -113,6 +120,24 @@ export const CollectionCard = ({ search, collection, slot }) => {
                 {collection.maximum >= 900000000
                   ? "\u221e"
                   : collection.maximum}
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                variant="p2"
+                sx={{
+                  fontWeight: "bold",
+                  lineHeight: "25px",
+                  fontSize: fontSizeP2,
+                }}
+              >
+                Votes:&nbsp;
+              </Typography>
+              <Typography
+                variant="p2"
+                sx={{ lineHeight: "25px", fontSize: fontSizeP2 }}
+              >
+                {votes}
               </Typography>
             </Box>
           </Card>

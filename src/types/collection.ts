@@ -18,6 +18,12 @@ export interface CollectionUpdateProps {
 	collectionImage?: string;
 }
 
+export interface CollectionVoteProps {
+	collectionId: string;
+    tags: string[];
+	properties: object;
+}
+
 export interface GetCollectionProps{
     collectionId?: string;
     collectionIds?: string[];

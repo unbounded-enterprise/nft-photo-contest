@@ -22,6 +22,13 @@ export const CollectionCard = ({
     }
   }
 
+  let votes = 0;
+  if (collection.properties) {
+    if (collection.properties.votes) {
+      votes = collection.properties.votes.length;
+    }
+  }
+
   if (searchTrue) {
     const fontSizeH4 =
       collection.collectionName.length > 50
@@ -136,6 +143,24 @@ export const CollectionCard = ({
                 sx={{ lineHeight: "25px", fontSize: fontSizeP2 }}
               >
                 {collectionCount}
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                variant="p2"
+                sx={{
+                  fontWeight: "bold",
+                  lineHeight: "25px",
+                  fontSize: fontSizeP2,
+                }}
+              >
+                Votes:&nbsp;
+              </Typography>
+              <Typography
+                variant="p2"
+                sx={{ lineHeight: "25px", fontSize: fontSizeP2 }}
+              >
+                {votes}
               </Typography>
             </Box>
           </Card>

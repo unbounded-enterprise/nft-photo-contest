@@ -98,7 +98,7 @@ const ExploreCollectionPage = () => {
   };
 
   const handleVote = async () => {
-    voteOnCollection(nfts[0].nftId);
+    voteOnCollection(chosenCollection);
     setVoted(true);
   };
 
@@ -166,27 +166,17 @@ const ExploreCollectionPage = () => {
 
   useEffect(() => {
     if (user && nfts) {
-      if (containsUser(nfts[0], user)) {
+      if (containsUser(chosenCollection, user)) {
         setVoted(true);
       }
     }
   }, [user, nfts]);
 
   useEffect(() => {
-    if (nfts) {
-      if (nfts[0]) {
-        if (nfts[0].properties) {
-          if (nfts[0].properties["6464dae89c62e203e8e57cd6"]) {
-            if (nfts[0].properties["6464dae89c62e203e8e57cd6"].votes) {
-              setVoteCount(
-                nfts[0].properties["6464dae89c62e203e8e57cd6"].votes.length
-              );
-            } else {
-              setVoteCount(0);
-            }
-          } else {
-            setVoteCount(0);
-          }
+    if (chosenCollection) {
+      if (chosenCollection.properties) {
+        if (chosenCollection.properties.votes) {
+          setVoteCount(chosenCollection.properties.votes.length);
         } else {
           setVoteCount(0);
         }
@@ -194,7 +184,7 @@ const ExploreCollectionPage = () => {
         setVoteCount(0);
       }
     }
-  }, [nfts]);
+  }, [chosenCollection, voted]);
 
   useEffect(() => {
     getApp()
@@ -463,24 +453,19 @@ const getNFTs = async ({ collectionId, serials, from, to }) => {
   }
 };
 
-const voteOnCollection = async (nftId) => {
-  let voteObject = await axios.post("/api/nft/vote", { nftId: nftId });
+const voteOnCollection = async (collection) => {
+  let voteObject = await axios.post("/api/collection/vote", {
+    collectionId: collection.collectionId,
+    tags: collection.tags,
+  });
   return voteObject;
 };
 
-const containsUser = (nft, user) => {
-  console.log(nft);
-  if (nft.properties) {
-    if (nft.properties["6464dae89c62e203e8e57cd6"]) {
-      if (nft.properties["6464dae89c62e203e8e57cd6"].votes) {
-        if (
-          nft.properties["6464dae89c62e203e8e57cd6"].votes.includes(user.handle)
-        ) {
-          console.log("here");
-          return true;
-        } else {
-          return false;
-        }
+const containsUser = (collection, user) => {
+  if (collection.properties) {
+    if (collection.properties.votes) {
+      if (collection.properties.votes.includes(user.handle)) {
+        return true;
       } else {
         return false;
       }
