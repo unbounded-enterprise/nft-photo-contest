@@ -61,6 +61,7 @@ const ExploreCollectionPage = () => {
   const [collectionId, setCollectionId] = useState(null);
   const [page, setPage] = useState(1);
   const [voted, setVoted] = useState(null);
+  const [voteCount, setVoteCount] = useState(null);
   const { user } = useAuth();
 
   function nextPage() {
@@ -165,12 +166,35 @@ const ExploreCollectionPage = () => {
 
   useEffect(() => {
     if (user && nfts) {
-      console.log("In the use effect");
       if (containsUser(nfts[0], user)) {
         setVoted(true);
       }
     }
   }, [user, nfts]);
+
+  useEffect(() => {
+    if (nfts) {
+      if (nfts[0]) {
+        if (nfts[0].properties) {
+          if (nfts[0].properties["6464dae89c62e203e8e57cd6"]) {
+            if (nfts[0].properties["6464dae89c62e203e8e57cd6"].votes) {
+              setVoteCount(
+                nfts[0].properties["6464dae89c62e203e8e57cd6"].votes.length
+              );
+            } else {
+              setVoteCount(0);
+            }
+          } else {
+            setVoteCount(0);
+          }
+        } else {
+          setVoteCount(0);
+        }
+      } else {
+        setVoteCount(0);
+      }
+    }
+  }, [nfts]);
 
   useEffect(() => {
     getApp()
@@ -289,6 +313,12 @@ const ExploreCollectionPage = () => {
               </Typography>
               <Typography variant="p2" sx={boldTextStyle}>
                 {chosenCollection.type} &emsp;
+              </Typography>
+              <Typography variant="p2" sx={textStyle}>
+                Votes:&nbsp;
+              </Typography>
+              <Typography variant="p2" sx={boldTextStyle}>
+                {voteCount} &emsp;
               </Typography>
             </Grid>
             {user ? (
