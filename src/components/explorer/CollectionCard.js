@@ -19,8 +19,10 @@ export const CollectionCard = ({ search, collection, slot }) => {
 
   let votes = 0;
   if (collection.properties) {
-    if (collection.properties.votes) {
-      votes = collection.properties.votes.length;
+    if (collection.properties["6464dae89c62e203e8e57cd6"]) {
+      if (collection.properties["6464dae89c62e203e8e57cd6"].votes) {
+        votes = collection.properties["6464dae89c62e203e8e57cd6"].votes.length;
+      }
     }
   }
 

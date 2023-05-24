@@ -175,8 +175,12 @@ const ExploreCollectionPage = () => {
   useEffect(() => {
     if (chosenCollection) {
       if (chosenCollection.properties) {
-        if (chosenCollection.properties.votes) {
-          setVoteCount(chosenCollection.properties.votes.length);
+        if (chosenCollection.properties["6464dae89c62e203e8e57cd6"]) {
+          if(chosenCollection.properties["6464dae89c62e203e8e57cd6"].votes){
+            setVoteCount(chosenCollection.properties["6464dae89c62e203e8e57cd6"].votes.length);
+          } else {
+            setVoteCount(0);
+          }
         } else {
           setVoteCount(0);
         }
@@ -463,9 +467,17 @@ const voteOnCollection = async (collection) => {
 
 const containsUser = (collection, user) => {
   if (collection.properties) {
-    if (collection.properties.votes) {
-      if (collection.properties.votes.includes(user.handle)) {
-        return true;
+    if (collection.properties["6464dae89c62e203e8e57cd6"]) {
+      if (collection.properties["6464dae89c62e203e8e57cd6"].votes) {
+        if (
+          collection.properties["6464dae89c62e203e8e57cd6"].votes.includes(
+            user.handle
+          )
+        ) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }

@@ -111,8 +111,12 @@ const InventoryCollectionPage = () => {
   useEffect(() => {
     if (chosenCollection) {
       if (chosenCollection.properties) {
-        if (chosenCollection.properties.votes) {
-          setVoteCount(chosenCollection.properties.votes.length);
+        if (chosenCollection.properties["6464dae89c62e203e8e57cd6"]) {
+          if(chosenCollection.properties["6464dae89c62e203e8e57cd6"].votes){
+            setVoteCount(chosenCollection.properties["6464dae89c62e203e8e57cd6"].votes.length);
+          } else {
+            setVoteCount(0);
+          }
         } else {
           setVoteCount(0);
         }
