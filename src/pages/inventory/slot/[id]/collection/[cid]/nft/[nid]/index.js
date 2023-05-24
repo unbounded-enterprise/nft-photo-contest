@@ -5,6 +5,7 @@ import {
   Box,
   Breadcrumbs,
   Button,
+  Card,
   Grid,
   Link,
   TextField,
@@ -249,7 +250,25 @@ const InventoryNftDetailPage = () => {
               )}
             </Grid>
             <Grid item container xs={12} sx={{ my: "2rem" }}>
-              <NftDetailDisplay nft={chosenNft} />
+            <Card
+            variant="outlined"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              p: 1,
+              m: 1,
+            }}
+          >
+            <img
+              src={getFullView(chosenNft)}
+              alt="Collection Image"
+              style={{
+                maxHeight: "700px",
+                maxWidth: "400px",
+                placeSelf: "center",
+              }}
+            />
+          </Card>
             </Grid>
           </Grid>
         </Grid>
@@ -302,3 +321,14 @@ const sendNFT = async (nft, recipientHandle) => {
   });
   return nftsObject;
 };
+
+const getFullView = (nft) => {
+  let fullView;
+  nft.expressionValues.forEach(element => {
+    if (element.expression.expressionName === "Full Image") {
+      fullView = element.value;
+    }
+  });
+  return fullView;
+}
+

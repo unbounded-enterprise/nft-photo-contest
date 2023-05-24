@@ -45,12 +45,12 @@ const loading = (
 );
 
 export const collectionSortMethods = {
+  newest: newestSort,
+  oldest: oldestSort,
   maximum: maximumSort,
   maximumReverse: maximumSortReverse,
   minted: mintedSort,
   mintedReverse: mintedSortReverse,
-  newest: newestSort,
-  oldest: oldestSort,
   aToZ,
   zToA,
 };
@@ -85,14 +85,14 @@ function mintedSortReverse(a, b) {
 
 function newestSort(a, b) {
   if (a && b) {
-    return a.createdAt - b.createdAt;
+    return b.createdAt - a.createdAt;
   }
   return 0;
 }
 
 function oldestSort(a, b) {
   if (a && b) {
-    return b.createdAt - a.createdAt;
+    return a.createdAt - b.createdAt;
   }
   return 0;
 }
@@ -126,7 +126,7 @@ const ExploreSlotPage = () => {
   const [collections, setCollections] = useState(null);
   const [chosenSlot, setChosenSlot] = useState(null);
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("maximum");
+  const [sort, setSort] = useState("newest");
   const [minted, setMinted] = useState(0);
   const { user } = useAuth();
 
@@ -220,12 +220,12 @@ const ExploreSlotPage = () => {
   };
 
   const sortOptions = [
+    { value: "newest", display: "Newest" },
+    { value: "oldest", display: "Oldest" },
     { value: "maximum", display: "Maximum: High to Low" },
     { value: "maximumReverse", display: "Maximum: Low to High" },
     { value: "minted", display: "Minted: High to Low" },
     { value: "mintedReverse", display: "Minted: Low to High" },
-    { value: "newest", display: "Newest" },
-    { value: "oldest", display: "Oldest" },
     { value: "aToZ", display: "Alphabetical" },
     { value: "zToA", display: "Reverse Alphabetical" },
   ];
@@ -292,7 +292,7 @@ const ExploreSlotPage = () => {
                 optionsArray={sortOptions}
                 onChange={handleSelect}
                 label="Sort"
-                defaultValue={"maximum"}
+                defaultValue={"newest"}
               />
             </Box>
           </Grid>

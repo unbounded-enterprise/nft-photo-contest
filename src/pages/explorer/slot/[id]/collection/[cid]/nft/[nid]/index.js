@@ -5,6 +5,7 @@ import {
   Box,
   Breadcrumbs,
   Button,
+  Card,
   Typography,
   Grid,
   Link,
@@ -163,7 +164,25 @@ const ExploreNftDetailPage = () => {
               type={chosenCollection.type}
               nftLocation={chosenNft.location}
             />
-            <NftDetailDisplay nft={chosenNft} />
+            <Card
+            variant="outlined"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              p: 1,
+              m: 1,
+            }}
+          >
+            <img
+              src={getFullView(chosenNft)}
+              alt="Collection Image"
+              style={{
+                maxHeight: "700px",
+                maxWidth: "400px",
+                placeSelf: "center",
+              }}
+            />
+          </Card>
           </Grid>
         </Grid>
       </Box>
@@ -206,3 +225,13 @@ const getNft = async (nftId) => {
   }
   return nftObject.data.nfts[0];
 };
+
+const getFullView = (nft) => {
+  let fullView;
+  nft.expressionValues.forEach(element => {
+    if (element.expression.expressionName === "Full Image") {
+      fullView = element.value;
+    }
+  });
+  return fullView;
+}

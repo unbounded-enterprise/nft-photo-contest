@@ -100,6 +100,7 @@ const ExploreCollectionPage = () => {
   const handleVote = async () => {
     voteOnCollection(chosenCollection);
     setVoted(true);
+    setVoteCount(voteCount + 1);
   };
 
   useEffect(() => {
