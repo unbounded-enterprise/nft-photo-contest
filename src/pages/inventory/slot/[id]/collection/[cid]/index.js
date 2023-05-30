@@ -228,7 +228,7 @@ const InventoryCollectionPage = () => {
               {voteCount} &emsp;
             </Typography>
           </Grid>
-          {user.handle != "jacklaskey" ? (
+          {user.handle != "jacklaskey" || "dave92" ? (
             <></>
           ) : (
             <Grid item xs={12} sx={{ backgroundColor: "none" }}>
