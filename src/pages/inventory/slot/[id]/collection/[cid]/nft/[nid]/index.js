@@ -61,7 +61,7 @@ const InventoryNftDetailPage = () => {
 
   const handleSend = async () => {
     try {
-      let response = await sendNFT(chosenNft, handleEntry.trim());
+      let response = await sendNFT(chosenNft, cleanHandle(handleEntry));
       if (response.status === 200) {
         setSent(true);
       }
@@ -332,3 +332,10 @@ const getFullView = (nft) => {
   return fullView;
 }
 
+const cleanHandle = (handle) => {
+  handle.trim();
+  if (handle.includes("$")) {
+    return handle.split("$")[1];
+  }
+  return handle;
+}
